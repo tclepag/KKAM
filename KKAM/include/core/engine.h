@@ -2,8 +2,10 @@
 
 #include "common/common.h"
 #include "window.h"
+#include "renderer/dx11renderer.h"
 
 namespace core {
+	using namespace renderer;
 	class Engine {
 	public:
 		Engine();
@@ -22,5 +24,6 @@ namespace core {
 
 		bool m_isRunning = false;
 		UniquePtr<Window> m_window = nullptr;
+		UniquePtr<DX11Renderer> m_renderer = nullptr;
 	};
 }

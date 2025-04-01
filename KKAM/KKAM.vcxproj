@@ -109,6 +109,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,12 +127,18 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cpp" />
     <ClCompile Include="src\core\window.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\renderer\dx11renderer.cpp" />
+    <ClCompile Include="src\renderer\viewports\dx11viewport.cpp" />
+    <ClCompile Include="src\resources\dx11\dx11cb.cpp" />
+    <ClCompile Include="src\resources\dx11\dx11ib.cpp" />
+    <ClCompile Include="src\resources\dx11\dx11vb.cpp" />
     <ClCompile Include="src\utils\console.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +146,15 @@
     <ClInclude Include="include\common\directx11.h" />
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\window.h" />
+    <ClInclude Include="include\renderer\dx11renderer.h" />
+    <ClInclude Include="include\renderer\renderer.h" />
+    <ClInclude Include="include\renderer\viewports\dx11viewport.h" />
+    <ClInclude Include="include\renderer\viewports\viewport.h" />
     <ClInclude Include="include\resource.h" />
+    <ClInclude Include="include\resources\buffer.h" />
+    <ClInclude Include="include\resources\dx11\dx11cb.h" />
+    <ClInclude Include="include\resources\dx11\dx11ib.h" />
+    <ClInclude Include="include\resources\dx11\dx11vb.h" />
     <ClInclude Include="include\utils\console.h" />
     <ClInclude Include="include\utils\event.h" />
   </ItemGroup>

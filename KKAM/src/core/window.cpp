@@ -119,20 +119,26 @@ namespace core {
 
         auto window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
         if (window) {
-            auto& hooks = window->m_hooks;
-            for (auto& hook : hooks) {
-                auto& hookName = hook.first;
-                auto& hk = hook.second;
-                if (hk.msg == msg) {
-                    for (auto& callback : hk.callbacks) {
-                        callback(hwnd, wparam, lparam);
-                    }
-                    if (hk.override) {
-                        return 0;
+            if (window) {
+                auto& hooks = window->m_hooks;
+                for (auto& hook : hooks) {
+                    auto& hookName = hook.first;
+                    auto& hk = hook.second;
+                    if (hk.msg == msg) {
+                        if (hk.msg == WM_SIZE) {
+							OutputDebugString(L"Size\n");
+                        }
+                        for (auto& callback : hk.callbacks) {
+                            callback(hwnd, wparam, lparam);
+                        }
+                        if (hk.override) {
+                            return 0;
+                        }
                     }
                 }
             }
         }
+
         return DefWindowProc(hwnd, msg, wparam, lparam);
     }
 };
