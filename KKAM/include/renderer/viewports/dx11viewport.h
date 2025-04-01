@@ -10,7 +10,7 @@ namespace renderer {
 		public:
 			DX11Viewport() = default;
 			~DX11Viewport() = default;
-			void init(Context11* context, SwapChain11* swapChain) override;
+			void init(Context11* context, SwapChain11* swapChain, UINT height, UINT width) override;
 			void bind(Context11* context) override;
 		private:
 			friend class DX11Renderer;
@@ -21,9 +21,12 @@ namespace renderer {
 
 			void releaseResources();
 
-			void createViewport();
+			void createViewport(UINT height, UINT width);
 			void createRenderTarget(Context11* context, SwapChain11* swapChain);
-			void createDepthStencil(Context11* context, SwapChain11* swapChain);
+			void createDepthStencil(Context11* context, SwapChain11* swapChain, UINT height, UINT width);
+			void updateViewportDimensions(UINT width, UINT height);
+
+
 		};
 	}
 }

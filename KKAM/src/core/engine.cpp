@@ -22,6 +22,7 @@ namespace core {
 		if (!viewport) {
 			return false;
 		}
+		viewport->setClearColor(0.192f, 0.584f, 0.929f, 1.0f);
 
 		return true;
 	}
@@ -34,13 +35,13 @@ namespace core {
 
 		// Subscribe to window events
 		m_window->hook(L"close", L"onClose", [&](HWND hwnd, WPARAM wparam, LPARAM lparam) {
-			OutputDebugString(L"Closing\n");
 			m_window->close();
 			});
 
 		m_window->hook(L"redraw", L"onRedraw", [&](HWND hwnd, WPARAM wparam, LPARAM lparam) {
-			OutputDebugString(L"Redrawing\n");
+			// Keep rendering even when resizing
 			m_renderer->resize();
+			render();
 			});
 
 		m_isRunning = true;
@@ -63,7 +64,9 @@ namespace core {
 		if (!m_renderer) {
 			return;
 		}
-		m_renderer->render();
+		m_renderer->beginFrame();
+		m_renderer->getViewport(L"main")->bind(m_renderer->getContext().Get());
+		m_renderer->endFrame();
 	}
 	void Engine::processEvents() {
 		if (!m_window) {

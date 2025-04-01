@@ -2,7 +2,7 @@
 
 #define WINDOWS_LEAN_AND_MEAN
 #include <windows.h>
-
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <vector>

@@ -2,14 +2,20 @@
 
 namespace renderer {
 namespace viewports {
-	void DX11Viewport::init(Context11* context, SwapChain11* swapChain) {
-		createViewport();
+	void DX11Viewport::init(Context11* context, SwapChain11* swapChain, UINT height, UINT width) {
+		createViewport(height, width);
 		createRenderTarget(context, swapChain);
-		createDepthStencil(context, swapChain);
+		createDepthStencil(context, swapChain, height, width);
 	}
 	void DX11Viewport::bind(Context11* context) {
 		context->RSSetViewports(1, &m_viewport);
 		context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+
+		const float clearColor[4] = { m_clearColor[0], m_clearColor[1], m_clearColor[2], m_clearColor[3] };
+
+		const float hardCodedClearColor[4] = { 0.392f, 0.584f, 0.929f, 1.0f };
+
+		context->ClearRenderTargetView(m_renderTargetView.Get(), hardCodedClearColor);
 	}
 	void DX11Viewport::releaseResources()
 	{
@@ -17,9 +23,9 @@ namespace viewports {
 		m_renderTargetView.Reset();
 		m_depthStencilBuffer.Reset();
 	}
-	void DX11Viewport::createViewport() {
-		m_viewport.Width = 800;
-		m_viewport.Height = 600;
+	void DX11Viewport::createViewport(UINT height, UINT width) {
+		m_viewport.Width = static_cast<float>(width);
+		m_viewport.Height = static_cast<float>(height);
 		m_viewport.MinDepth = 0.0f;
 		m_viewport.MaxDepth = 1.0f;
 		m_viewport.TopLeftX = 0;
@@ -33,9 +39,22 @@ namespace viewports {
 		// Clear render target view if it exists
 		m_renderTargetView.Reset();
 
-		swapChain->GetBuffer(0, IID_PPV_ARGS(m_renderTargetView.GetAddressOf()));
+		// Get the back buffer from the swap chain
+		ComPtr<ID3D11Texture2D> backBuffer;
+		HRESULT hr = swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
+		if (FAILED(hr)) {
+			OutputDebugString(L"Failed to get the back buffer from the swap chain\n");
+			return;
+		}
+
+		// Create the render target view
+		hr = device->CreateRenderTargetView(backBuffer.Get(), nullptr, m_renderTargetView.GetAddressOf());
+		if (FAILED(hr)) {
+			OutputDebugString(L"Failed to create the render target view\n");
+			return;
+		}
 	}
-	void DX11Viewport::createDepthStencil(Context11* context, SwapChain11* swapChain) {
+	void DX11Viewport::createDepthStencil(Context11* context, SwapChain11* swapChain, UINT height, UINT width) {
 		// Get ID3D11Device from ID3D11DeviceContext
 		Device11* device;
 		context->GetDevice(&device);
@@ -45,8 +64,8 @@ namespace viewports {
 		m_depthStencilBuffer.Reset();
 
 		D3D11_TEXTURE2D_DESC descDepth = {};
-		descDepth.Width = 800;
-		descDepth.Height = 600;
+		descDepth.Width = width;
+		descDepth.Height = height;
 		descDepth.MipLevels = 1;
 		descDepth.ArraySize = 1;
 		descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -64,6 +83,10 @@ namespace viewports {
 		descDSV.Texture2D.MipSlice = 0;
 
 		device->CreateDepthStencilView(m_depthStencilBuffer.Get(), &descDSV, m_depthStencilView.GetAddressOf());
+	}
+	void DX11Viewport::updateViewportDimensions(UINT width, UINT height) {
+		m_viewport.Width = static_cast<float>(width);
+		m_viewport.Height = static_cast<float>(height);
 	}
 }
 }

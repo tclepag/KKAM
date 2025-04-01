@@ -125,9 +125,6 @@ namespace core {
                     auto& hookName = hook.first;
                     auto& hk = hook.second;
                     if (hk.msg == msg) {
-                        if (hk.msg == WM_SIZE) {
-							OutputDebugString(L"Size\n");
-                        }
                         for (auto& callback : hk.callbacks) {
                             callback(hwnd, wparam, lparam);
                         }

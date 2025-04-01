@@ -13,7 +13,8 @@ namespace renderer {
 		DX11Renderer();
 		~DX11Renderer();
 		void init() override;
-		void render() override;
+		void beginFrame() override;
+		void endFrame() override;
 		void shutdown() override;
 		void rebuild() override;
 		void resize() override;
@@ -32,6 +33,9 @@ namespace renderer {
 		ComPtr<SwapChain11> m_swapChain;
 		ComPtr<RenderTargetView11> m_renderTargetView;
 		Map<String, SharedPtr<DX11Viewport>> m_viewports;
+
+		UINT m_backBufferWidth;
+		UINT m_backBufferHeight;
 
 		void createDeviceAndSwapChain();
 		void createRenderTargetView();
