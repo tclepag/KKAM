@@ -18,7 +18,7 @@ namespace resources {
 			device->CreateBuffer(&bd, &initData, m_buffer.GetAddressOf());
 		}
 		void DX11VertexBuffer::bind(Context11* context) {
-			UINT stride = sizeof(float);
+			UINT stride = sizeof(float) * 3;
 			UINT offset = 0;
 			context->IASetVertexBuffers(0, 1, m_buffer.GetAddressOf(), &stride, &offset);
 		}

@@ -10,6 +10,7 @@ namespace renderer {
 			virtual ~Viewport() = default;
 			virtual void init(CONTEXT* context, SWAPCHAIN* swapChain, UINT height, UINT width) = 0;
 			virtual void bind(CONTEXT* context) = 0;
+			virtual void clear(CONTEXT* context) = 0;
 			void setClearColor(float r, float g, float b, float a) {
 				m_clearColor = { r, g, b, a };
 			}

@@ -10,12 +10,10 @@ namespace viewports {
 	void DX11Viewport::bind(Context11* context) {
 		context->RSSetViewports(1, &m_viewport);
 		context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
-
+	}
+	void DX11Viewport::clear(Context11* context) {
 		const float clearColor[4] = { m_clearColor[0], m_clearColor[1], m_clearColor[2], m_clearColor[3] };
-
-		const float hardCodedClearColor[4] = { 0.392f, 0.584f, 0.929f, 1.0f };
-
-		context->ClearRenderTargetView(m_renderTargetView.Get(), hardCodedClearColor);
+		context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
 	}
 	void DX11Viewport::releaseResources()
 	{

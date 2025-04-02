@@ -17,6 +17,24 @@ namespace core {
 		m_renderer = std::make_unique<DX11Renderer>();
 		m_renderer->init();
 
+		// Test object
+		// Create Vertex
+		m_vb = std::make_unique<DX11VertexBuffer>();
+		m_vb->setVertices({ -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f });
+		m_vb->initialize(m_renderer->getContext().Get());
+		// Create indices
+		m_ib = std::make_unique<DX11IndexBuffer>();
+		m_ib->setIndices({ 0, 1, 2 });
+		m_ib->initialize(m_renderer->getContext().Get());
+		// Create Shader
+		m_shader = std::make_unique<DX11Shader>();
+		m_shader->setContext(m_renderer->getContext().Get());
+		m_shader->setVertexPath(L"content/shaders/vertex.hlsl");
+		m_shader->setPixelPath(L"content/shaders/pixel.hlsl");
+		D3D11_INPUT_ELEMENT_DESC positionElement = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+		m_shader->setLayout({ positionElement });
+		m_shader->build();
+
 		return true;
 	}
 	void Engine::run() {
@@ -57,7 +75,14 @@ namespace core {
 		if (!m_renderer) {
 			return;
 		}
+
+		m_renderer->getViewport()->clear(m_renderer->getContext().Get());
 		m_renderer->beginFrame();
+		m_shader->bind();
+		m_vb->bind(m_renderer->getContext().Get());
+		m_ib->bind(m_renderer->getContext().Get());
+		m_renderer->getContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_renderer->getContext()->DrawIndexed(3, 0, 0);
 		m_renderer->endFrame();
 	}
 	void Engine::processEvents() {

@@ -6,8 +6,13 @@ namespace resources {
 	public:
 		virtual ~Buffer() = default;
 
-		virtual void initialize(CONTEXT* context) = 0;
-		virtual void bind(CONTEXT* context) = 0;
-		virtual void unbind(CONTEXT* context) = 0;
+		virtual void initialize(CONTEXT* context) {}
+		virtual void bind(CONTEXT* context) {}
+		virtual void unbind(CONTEXT* context) {}
+		void setSlot(size_t slot) {
+			m_slot = slot;
+		}
+	protected:
+		size_t m_slot = 0;
 	};
 }

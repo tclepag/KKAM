@@ -10,11 +10,11 @@ namespace resources {
         public:
             virtual ~DX11IndexBuffer() = default;
 
-            virtual void initialize(Context11* context) override = 0;
-            virtual void bind(Context11* context) override = 0;
-            virtual void unbind(Context11* context) override = 0;
+            void initialize(Context11* context) override;
+            void bind(Context11* context) override;
+            void unbind(Context11* context) override;
 
-            virtual void setIndices(const std::vector<uint32_t>& indices) = 0;
+            void setIndices(const std::vector<uint32_t>& indices);
         private:
 			ComPtr<Buffer11> m_buffer;
 			std::vector<uint32_t> m_indices;

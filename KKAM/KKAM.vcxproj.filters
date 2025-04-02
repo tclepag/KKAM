@@ -27,9 +27,6 @@
     <ClCompile Include="src\core\engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\dx11renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\resources\dx11\dx11ib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,7 +36,13 @@
     <ClCompile Include="src\resources\dx11\dx11cb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\dx11renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\renderer\viewports\dx11viewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\dx11\dx11shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,12 +68,6 @@
     <ClInclude Include="include\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\renderer\renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\renderer\dx11renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\resources\buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,10 +80,22 @@
     <ClInclude Include="include\resources\dx11\dx11cb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\renderer\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\renderer\dx11renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\renderer\viewports\viewport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\renderer\viewports\dx11viewport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resources\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resources\dx11\dx11shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,5 +111,9 @@
     <Image Include="content\app.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="content\shaders\vertex.hlsl" />
+    <FxCompile Include="content\shaders\pixel.hlsl" />
   </ItemGroup>
 </Project>

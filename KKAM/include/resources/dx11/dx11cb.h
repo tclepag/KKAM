@@ -14,10 +14,10 @@ namespace resources {
             virtual bool initialize(Context11* context, size_t size, const T* initialData = nullptr) = 0;
 
             // Bind the constant buffer to the pipeline
-            virtual void bind(Context11* context, unsigned int slot) = 0;
+            virtual void bind(Context11* context) = 0;
 
             // Unbind the constant buffer from the pipeline
-            virtual void unbind(Context11* context, unsigned int slot) = 0;
+            virtual void unbind(Context11* context) = 0;
 
             // Update the constant buffer with new data
             virtual void update(Context11* context, const T* data, size_t size) = 0;

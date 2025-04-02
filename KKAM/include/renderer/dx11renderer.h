@@ -23,6 +23,7 @@ namespace renderer {
 		ComPtr<Context11> getContext() const;
 		ComPtr<SwapChain11> getSwapChain() const;
 		ComPtr<RenderTargetView11> getRenderTargetView() const;
+		SharedPtr<DX11Viewport> getViewport() const { return m_viewport; }
 	private:
 		ComPtr<Device11> m_device;
 		ComPtr<Context11> m_context;

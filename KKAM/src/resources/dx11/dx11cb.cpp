@@ -23,16 +23,16 @@ namespace resources {
         }
 
         template<typename T>
-        void DX11ConstantBuffer<T>::bind(Context11* context, unsigned int slot) {
-            context->VSSetConstantBuffers(slot, 1, m_buffer.GetAddressOf());
-            context->PSSetConstantBuffers(slot, 1, m_buffer.GetAddressOf());
+        void DX11ConstantBuffer<T>::bind(Context11* context) {
+            context->VSSetConstantBuffers(m_slot, 1, m_buffer.GetAddressOf());
+            context->PSSetConstantBuffers(m_slot, 1, m_buffer.GetAddressOf());
         }
 
         template<typename T>
-        void DX11ConstantBuffer<T>::unbind(Context11* context, unsigned int slot) {
+        void DX11ConstantBuffer<T>::unbind(Context11* context) {
             ID3D11Buffer* nullBuffer = nullptr;
-            context->VSSetConstantBuffers(slot, 1, &nullBuffer);
-            context->PSSetConstantBuffers(slot, 1, &nullBuffer);
+            context->VSSetConstantBuffers(m_slot, 1, &nullBuffer);
+            context->PSSetConstantBuffers(m_slot, 1, &nullBuffer);
         }
 
         template<typename T>
