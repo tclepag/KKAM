@@ -19,10 +19,6 @@ namespace renderer {
 		void rebuild() override;
 		void resize() override;
 
-		DX11Viewport* createViewport(const String& name);
-		DX11Viewport* getViewport(const String& name);
-		DX11Viewport* removeViewport(const String& name);
-
 		ComPtr<Device11> getDevice() const;
 		ComPtr<Context11> getContext() const;
 		ComPtr<SwapChain11> getSwapChain() const;
@@ -32,7 +28,7 @@ namespace renderer {
 		ComPtr<Context11> m_context;
 		ComPtr<SwapChain11> m_swapChain;
 		ComPtr<RenderTargetView11> m_renderTargetView;
-		Map<String, SharedPtr<DX11Viewport>> m_viewports;
+		SharedPtr<DX11Viewport> m_viewport;
 
 		UINT m_backBufferWidth;
 		UINT m_backBufferHeight;

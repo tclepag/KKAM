@@ -23,7 +23,7 @@ namespace viewports {
 		m_renderTargetView.Reset();
 		m_depthStencilBuffer.Reset();
 	}
-	void DX11Viewport::createViewport(UINT height, UINT width) {
+	void DX11Viewport::createViewport(UINT width, UINT height) {
 		m_viewport.Width = static_cast<float>(width);
 		m_viewport.Height = static_cast<float>(height);
 		m_viewport.MinDepth = 0.0f;
@@ -54,7 +54,7 @@ namespace viewports {
 			return;
 		}
 	}
-	void DX11Viewport::createDepthStencil(Context11* context, SwapChain11* swapChain, UINT height, UINT width) {
+	void DX11Viewport::createDepthStencil(Context11* context, SwapChain11* swapChain, UINT width, UINT height) {
 		// Get ID3D11Device from ID3D11DeviceContext
 		Device11* device;
 		context->GetDevice(&device);

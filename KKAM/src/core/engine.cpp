@@ -17,13 +17,6 @@ namespace core {
 		m_renderer = std::make_unique<DX11Renderer>();
 		m_renderer->init();
 
-		// Create a viewport
-		auto viewport = m_renderer->createViewport(L"main");
-		if (!viewport) {
-			return false;
-		}
-		viewport->setClearColor(0.192f, 0.584f, 0.929f, 1.0f);
-
 		return true;
 	}
 	void Engine::run() {
@@ -65,7 +58,6 @@ namespace core {
 			return;
 		}
 		m_renderer->beginFrame();
-		m_renderer->getViewport(L"main")->bind(m_renderer->getContext().Get());
 		m_renderer->endFrame();
 	}
 	void Engine::processEvents() {

@@ -7,12 +7,13 @@ DX11Renderer::~DX11Renderer() {
 	shutdown();
 }
 void DX11Renderer::init() {
+	m_viewport = std::make_shared<DX11Viewport>();
 	createDeviceAndSwapChain();
+	m_viewport->init(m_context.Get(), m_swapChain.Get(), 800, 600);
 	createRenderTargetView();
 }
 void DX11Renderer::beginFrame() {
-	const float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
+	m_viewport->bind(m_context.Get());
 }
 void DX11Renderer::endFrame() {
 	m_swapChain->Present(0, 0);
@@ -24,7 +25,7 @@ void DX11Renderer::shutdown() {
 	m_swapChain.Reset();
 	m_renderTargetView.Reset();
 	m_device.Reset();
-	m_viewports.clear();
+	m_viewport.reset();
 }
    void DX11Renderer::rebuild() {
 	OutputDebugString(L"Rebuilding\n");
@@ -45,10 +46,7 @@ void DX11Renderer::shutdown() {
        // Recreate render target view
        createRenderTargetView();
 
-	// Recreate depth stencil view if necessary
-	for (auto& viewport : m_viewports) {
-		viewport.second->createDepthStencil(m_context.Get(), m_swapChain.Get(), m_backBufferHeight, m_backBufferWidth);
-	}
+	  m_viewport->createDepthStencil(m_context.Get(), m_swapChain.Get(), m_backBufferWidth, m_backBufferHeight);
 
 	// Render again
 	beginFrame();
@@ -63,10 +61,7 @@ void DX11Renderer::resize() {
 		m_renderTargetView.Reset();
 	}
 
-	// Release depth stencil views and buffers
-    for (auto& viewport : m_viewports) {
-        viewport.second->releaseResources();
-    }
+	m_viewport->releaseResources();
 
 	if (m_swapChain) {
 		HRESULT hr = m_swapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
@@ -79,45 +74,16 @@ void DX11Renderer::resize() {
 	createRenderTargetView();
 
 	// Recreate depth stencil view if necessary
-    for (auto& viewport : m_viewports) {
-        viewport.second->createRenderTarget(m_context.Get(), m_swapChain.Get());
-        viewport.second->createDepthStencil(m_context.Get(), m_swapChain.Get(), m_backBufferHeight, m_backBufferWidth);
-    }
+	m_viewport->createRenderTarget(m_context.Get(), m_swapChain.Get());
+	m_viewport->createDepthStencil(m_context.Get(), m_swapChain.Get(), m_backBufferWidth, m_backBufferHeight);
 
-	// Rebind viewports
-	for (auto& viewport : m_viewports) {
-		viewport.second->updateViewportDimensions(m_backBufferWidth, m_backBufferHeight);
-		viewport.second->bind(m_context.Get());
-	}
+	m_viewport->updateViewportDimensions(m_backBufferWidth, m_backBufferHeight);
+	m_viewport->bind(m_context.Get());
 
 	// Render again
 	beginFrame();
 	endFrame();
 }
-   DX11Viewport* DX11Renderer::createViewport(const String& name) {
-       auto viewport = std::make_shared<DX11Viewport>();
-	viewport->init(m_context.Get(), m_swapChain.Get(), m_backBufferHeight, m_backBufferWidth);
-       m_viewports[name] = viewport;
-       return viewport.get();
-   }
-
-   DX11Viewport* DX11Renderer::getViewport(const String& name) {
-       auto it = m_viewports.find(name);
-       if (it != m_viewports.end()) {
-           return it->second.get();
-       }
-       return nullptr;
-   }
-
-   DX11Viewport* DX11Renderer::removeViewport(const String& name) {
-       auto it = m_viewports.find(name);
-       if (it != m_viewports.end()) {
-           auto viewport = it->second;
-           m_viewports.erase(it);
-           return viewport.get();
-       }
-       return nullptr;
-   }
 ComPtr<Device11> DX11Renderer::getDevice() const {
 	return m_device;
 }
