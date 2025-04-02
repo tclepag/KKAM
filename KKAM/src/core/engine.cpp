@@ -76,8 +76,8 @@ namespace core {
 			return;
 		}
 
-		m_renderer->getViewport()->clear(m_renderer->getContext().Get());
 		m_renderer->beginFrame();
+		m_renderer->getViewport()->clear(m_renderer->getContext().Get());
 		m_shader->bind();
 		m_vb->bind(m_renderer->getContext().Get());
 		m_ib->bind(m_renderer->getContext().Get());

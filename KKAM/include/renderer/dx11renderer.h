@@ -29,6 +29,8 @@ namespace renderer {
 		ComPtr<Context11> m_context;
 		ComPtr<SwapChain11> m_swapChain;
 		ComPtr<RenderTargetView11> m_renderTargetView;
+		ComPtr<ID3D11BlendState> m_blendState;
+		ComPtr<ID3D11RasterizerState> m_rasterizerState;
 		SharedPtr<DX11Viewport> m_viewport;
 
 		UINT m_backBufferWidth;
@@ -36,5 +38,7 @@ namespace renderer {
 
 		void createDeviceAndSwapChain();
 		void createRenderTargetView();
+		void createBlendState();
+		void createRasterizerState();
 	};
 }

@@ -14,6 +14,7 @@ namespace viewports {
 	void DX11Viewport::clear(Context11* context) {
 		const float clearColor[4] = { m_clearColor[0], m_clearColor[1], m_clearColor[2], m_clearColor[3] };
 		context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
+		context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 	void DX11Viewport::releaseResources()
 	{

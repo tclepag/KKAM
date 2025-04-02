@@ -11,6 +11,9 @@ void DX11Renderer::init() {
 	createDeviceAndSwapChain();
 	m_viewport->init(m_context.Get(), m_swapChain.Get(), 800, 600);
 	createRenderTargetView();
+
+	createBlendState();
+	createRasterizerState();
 }
 void DX11Renderer::beginFrame() {
 	m_viewport->bind(m_context.Get());
@@ -79,6 +82,15 @@ void DX11Renderer::resize() {
 
 	m_viewport->updateViewportDimensions(m_backBufferWidth, m_backBufferHeight);
 	m_viewport->bind(m_context.Get());
+
+	if (m_rasterizerState) {
+		m_context->RSSetState(m_rasterizerState.Get());
+	}
+
+	if (m_blendState) {
+		float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		m_context->OMSetBlendState(m_blendState.Get(), blendFactor, 0xffffffff);
+	}
 
 	// Render again
 	beginFrame();
@@ -151,5 +163,58 @@ void DX11Renderer::createRenderTargetView() {
 	// Store the dimensions of the back buffer
 	m_backBufferWidth = backBufferDesc.Width;
 	m_backBufferHeight = backBufferDesc.Height;
+}
+void DX11Renderer::createBlendState()
+{
+	D3D11_BLEND_DESC blendDesc = {};
+
+	blendDesc.RenderTarget[0].BlendEnable = FALSE;           // Disable blending for now
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;    // Not used when blend is disabled
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;  // Not used when blend is disabled
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;  // Not used when blend is disabled
+
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;    // Not used when blend is disabled
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;  // Not used when blend is disabled
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;  // Not used when blend is disabled
+
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;  // Important: Allow writing to all channels
+
+	// Create and set the blend state
+	ID3D11BlendState* blendState = nullptr;
+	HRESULT hr = m_device->CreateBlendState(&blendDesc, &blendState);
+	if (FAILED(hr))
+	{
+		// Handle error
+		return;
+	}
+
+	// Apply the blend state (the float array is blend factor, typically all zeros for default)
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_context->OMSetBlendState(blendState, blendFactor, 0xffffffff);
+
+	// Store for later cleanup
+	m_blendState = blendState;
+}
+void DX11Renderer::createRasterizerState()
+{
+	// Add rasterizer state setup here
+	D3D11_RASTERIZER_DESC rastDesc = {};
+	rastDesc.FillMode = D3D11_FILL_SOLID;
+	rastDesc.CullMode = D3D11_CULL_NONE;  // Start with no culling for debugging
+	rastDesc.FrontCounterClockwise = TRUE;
+	rastDesc.DepthClipEnable = TRUE;
+
+	// Create and set the rasterizer state
+	ID3D11RasterizerState* rasterizerState = nullptr;
+	HRESULT hr = m_device->CreateRasterizerState(&rastDesc, &rasterizerState);
+	if (FAILED(hr))
+	{
+		return;
+	}
+
+	m_context->RSSetState(rasterizerState);
+
+	// Store for later use and cleanup
+	m_rasterizerState = rasterizerState;
 }
 }
