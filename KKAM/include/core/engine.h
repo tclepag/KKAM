@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/common.h"
+#include "common/math.h"
 #include "window.h"
 #include "renderer/dx11renderer.h"
 
@@ -9,7 +10,14 @@
 #include "resources/dx11/dx11ib.h"
 #include "resources/dx11/dx11vb.h"
 
+
 namespace core {
+	struct Transform {
+		Matrix4 model;
+		Matrix4 view;
+		Matrix4 projection;
+	};
+
 	using namespace resources;
 	using namespace renderer;
 	class Engine {
@@ -37,5 +45,6 @@ namespace core {
 		UniquePtr<DX11IndexBuffer> m_ib = nullptr;
 		UniquePtr<DX11VertexBuffer> m_vb = nullptr;
 
+		Transform m_transform;
 	};
 }

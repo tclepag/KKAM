@@ -17,6 +17,11 @@ namespace core {
 		m_renderer = std::make_unique<DX11Renderer>();
 		m_renderer->init();
 
+		// Set transform to identity
+		m_transform.model = Matrix4::identity();
+		m_transform.view = Matrix4::identity();
+		m_transform.projection = Matrix4::identity();
+
 		// Test object
 		// Create Vertex
 		m_vb = std::make_unique<DX11VertexBuffer>();
@@ -32,6 +37,7 @@ namespace core {
 		m_shader->setVertexPath(L"content/shaders/vertex.hlsl");
 		m_shader->setPixelPath(L"content/shaders/pixel.hlsl");
 		D3D11_INPUT_ELEMENT_DESC positionElement = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+		m_shader->createConstantBuffer(String(L"TRANSFORM"), sizeof(Transform));
 		m_shader->setLayout({ positionElement });
 		m_shader->build();
 
@@ -76,13 +82,50 @@ namespace core {
 			return;
 		}
 
+		float fovY = 3.14f / 4.0f; // 45 degrees field of view
+		float aspect = 16.0f / 9.0f; // Aspect ratio
+		float nearZ = 0.1f;
+		float farZ = 100.0f;
+
+		Matrix4 projectionMatrix = Matrix4::perspective(fovY, aspect, nearZ, farZ);
+
+		Vector3 eye(0.0f, 0.0f, 5.0f); // Camera position
+		Vector3 target(0.0f, 0.0f, 0.0f); // Camera target
+		Vector3 up(0.0f, 1.0f, 0.0f); // Up vector
+
+		Matrix4 viewMatrix = Matrix4::lookAt(eye, target, up);
+
+		m_transform.projection = projectionMatrix;
+		m_transform.view = viewMatrix;
+
+		Transform transform = m_transform;
+		transform.model.transpose();
+		transform.view.transpose();
+		transform.projection.transpose();
+
+
+		// Begin frame, binding the viewport and clearing the color buffer
 		m_renderer->beginFrame();
 		m_renderer->getViewport()->clear(m_renderer->getContext().Get());
+
+		// Update constant buffer
+		void* ptr = static_cast<void*>(&transform);
+		m_shader->updateConstantBuffer(String(L"TRANSFORM"), ptr);
+
+		// Bind shader
 		m_shader->bind();
+
+		// Bind buffers
 		m_vb->bind(m_renderer->getContext().Get());
 		m_ib->bind(m_renderer->getContext().Get());
+
+		// Set primitive to triangle list
 		m_renderer->getContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// Draw
 		m_renderer->getContext()->DrawIndexed(3, 0, 0);
+
+		// Present
 		m_renderer->endFrame();
 	}
 	void Engine::processEvents() {

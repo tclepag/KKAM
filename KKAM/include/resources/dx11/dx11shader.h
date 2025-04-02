@@ -30,20 +30,16 @@ namespace resources {
 			m_layout = layout;
 		}
 		
-		template<typename T>
-		void createConstantBuffer(const String& name) {
-			DX11ConstantBuffer<T>* constBuffer = new DX11ConstantBuffer<T>();
-			constBuffer->initialize(m_context, sizeof(T));
+		void createConstantBuffer(const String& name, size_t size) {
+			DX11ConstantBuffer* constBuffer = new DX11ConstantBuffer(size);
+			constBuffer->initialize(m_context);
 			m_buffers[name] = constBuffer;
 		}
 
-		template<typename T>
-		void updateConstantBuffer(const String& name, const T& data) {
+		void updateConstantBuffer(const String& name, void* data) {
 			auto buffer = m_buffers[name];
-
-			DX11ConstantBuffer<T>* constantBuffer = dynamic_cast<DX11ConstantBuffer<T>*>(buffer);
-			if (constantBuffer) {
-				constantBuffer->update(m_context, &data, sizeof(T));
+			if (buffer) {
+				buffer->update(m_context, &data);
 			}
 		}
 
@@ -75,7 +71,7 @@ namespace resources {
 		String m_vertexPath;
 		String m_pixelPath;
 
-		Map<String, Buffer<Context11>*> m_buffers;
+		Map<String, DX11ConstantBuffer*> m_buffers;
 
 		std::vector<D3D11_INPUT_ELEMENT_DESC> m_layout = {
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
