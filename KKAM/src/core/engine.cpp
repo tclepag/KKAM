@@ -26,15 +26,17 @@ namespace core {
 		// Create Vertex
 		m_vb = std::make_unique<DX11VertexBuffer>();
 		m_vb->setVertices({
-		{0.0f, 0.5f, 0.0f}, // Vertex 1: position (x, y, z) and color (r, g, b, a)
-		{0.5f, -0.5f, 0.0f}, // Vertex 2: position (x, y, z) and color (r, g, b, a)
-		{-0.5f, -0.5f, 0.0f} // Vertex 3: position (x, y, z) and color (r, g, b, a)
+			{0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f}, // Vertex 1: position (x, y, z) and color (r, g, b)
+			{0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f}, // Vertex 2: position (x, y, z) and color (r, g, b)
+			{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f} // Vertex 3: position (x, y, z) and color (r, g, b)
 			});
 		m_vb->initialize(m_renderer->getContext().Get());
+
 		// Create indices
 		m_ib = std::make_unique<DX11IndexBuffer>();
 		m_ib->setIndices({ 0, 1, 2 });
 		m_ib->initialize(m_renderer->getContext().Get());
+
 		// Create Shader
 		m_shader = std::make_unique<DX11Shader>();
 		m_shader->setContext(m_renderer->getContext().Get());
@@ -42,12 +44,14 @@ namespace core {
 		m_shader->setPixelPath(L"content/shaders/pixel.hlsl");
 		m_shader->createConstantBuffer(String(L"TRANSFORM"), sizeof(Transform));
 		m_shader->setLayout({
-	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 			});
 		m_shader->build();
 
 		return true;
 	}
+
 	void Engine::run() {
 		// Create hooks for window events
 		m_window->createHook(WM_CLOSE, L"close");
@@ -61,6 +65,10 @@ namespace core {
 			});
 
 		m_window->hook(L"redraw", L"onRedraw", [&](HWND hwnd, WPARAM wparam, LPARAM lparam) {
+			// Fix window dimensions
+			m_window->m_width = LOWORD(lparam);
+			m_window->m_height = HIWORD(lparam);
+
 			// Keep rendering even when resizing
 			m_renderer->resize();
 			render();
@@ -87,27 +95,29 @@ namespace core {
 			return;
 		}
 
-		float fovY = 45; // 45 degrees field of view
-		float aspect = 16.0f / 9.0f; // Aspect ratio
+		float fovY = 0.7853981633974483f; // 45 degrees field of view in radians
+		float aspect = static_cast<float>(m_window->getWidth()) / static_cast<float>(m_window->getHeight());
 		float nearZ = 0.1f;
 		float farZ = 100.0f;
 
 		Matrix4 projectionMatrix = Matrix4::perspective(fovY, aspect, nearZ, farZ);
+		m_renderer->setProjectionMatrix(projectionMatrix);
 
-		Vector3 eye(0.0f, 0.0f, 5.0f); // Camera position
+		Vector3 eye(0.0f, 0.0f, 2.0f); // Camera position
 		Vector3 target(0.0f, 0.0f, 0.0f); // Camera target
 		Vector3 up(0.0f, 1.0f, 0.0f); // Up vector
 
 		Matrix4 viewMatrix = Matrix4::lookAt(eye, target, up);
+		m_renderer->setViewMatrix(viewMatrix);
 
+		m_transform.model = m_transform.model * Matrix4::rotationX(0.0001f);
 		m_transform.projection = projectionMatrix;
 		m_transform.view = viewMatrix;
 
-		Transform transform = m_transform;
-		transform.model = transform.model.transpose();
-		transform.view = transform.view.transpose();
-		transform.projection = transform.projection.transpose();
-
+		Transform transform;
+		transform.model = m_transform.model.transpose();
+		transform.view = m_transform.view.transpose();
+		transform.projection = m_transform.projection.transpose();
 
 		// Begin frame, binding the viewport and clearing the color buffer
 		m_renderer->beginFrame();
@@ -127,11 +137,12 @@ namespace core {
 
 		// Draw
 		m_renderer->getContext()->DrawIndexed(3, 0, 0);
-		OutputDebugString(L"Drawn 3 vertices\n");
 
 		// Present
 		m_renderer->endFrame();
 	}
+
+
 	void Engine::processEvents() {
 		if (!m_window) {
 			return;

@@ -15,6 +15,8 @@ namespace renderer {
 		void shutdown() override;
 		void rebuild() override;
 		void resize() override;
+		void setViewMatrix(const Matrix4& view) override { m_viewMatrix = view; }
+		void setProjectionMatrix(const Matrix4& projection) override { m_projectionMatrix = projection; }
 
 		ComPtr<Device11> getDevice() const;
 		ComPtr<Context11> getContext() const;

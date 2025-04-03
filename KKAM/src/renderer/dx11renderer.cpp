@@ -16,6 +16,7 @@ namespace renderer {
 	void DX11Renderer::beginFrame() {
 		m_context->RSSetViewports(1, &m_viewport);
 		m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+		clearRenderTargetAndDepthStencil();
 	}
 	void DX11Renderer::endFrame() {
 		m_swapChain->Present(0, 0);

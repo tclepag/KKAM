@@ -3,6 +3,8 @@
 #include "common/common.h"
 
 namespace core {
+    class Engine;
+
 	struct WindowCreateInfo {
 		int width;
 		int height;
@@ -44,7 +46,10 @@ namespace core {
         bool isRunning() const;
         HWND getHandle() const;
         MSG getMessage() const;
+		int getWidth() const;
+		int getHeight() const;
     private:
+        friend class Engine;
         HWND m_hwnd = nullptr;
         WNDCLASSEX m_wc = {};
         MSG m_msg = {};

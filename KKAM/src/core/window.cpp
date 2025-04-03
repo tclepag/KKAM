@@ -111,6 +111,14 @@ namespace core {
         return m_msg;
     }
 
+	int Window::getWidth() const {
+		return m_width;
+	}
+
+	int Window::getHeight() const {
+		return m_height;
+	}
+
     LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
     {
         if (msg == WM_CREATE) {

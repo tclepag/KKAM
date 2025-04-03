@@ -95,6 +95,17 @@ namespace math {
             return result;
         }
 
+        Matrix4 operator-() const {
+            Matrix4 result;
+            for (int i = 0; i < 4; ++i) {
+                result.rows[i][0] = -rows[i][0];
+				result.rows[i][1] = -rows[i][1];
+				result.rows[i][2] = -rows[i][2];
+				result.rows[i][3] = -rows[i][3];
+            }
+            return result;
+        }
+
         Matrix4 operator*(const Matrix4& other) const {
             Matrix4 result;
             for (int i = 0; i < 4; ++i) {
@@ -151,23 +162,25 @@ namespace math {
 
             result.rows[0][0] = 1.0f / (aspect * tanHalfFovY);
             result.rows[1][1] = 1.0f / tanHalfFovY;
-            result.rows[2][2] = farZ / (farZ - nearZ);
+            result.rows[2][2] = farZ / (nearZ - farZ);
             result.rows[2][3] = -1.0f;
-            result.rows[3][2] = -(farZ * nearZ) / (farZ - nearZ);
+            result.rows[3][2] = (farZ * nearZ) / (nearZ - farZ);
             result.rows[3][3] = 0.0f;
 
             return result;
         }
 
-        static Matrix4 Orthographic(float left, float right, float bottom, float top, float nearZ, float farZ) {
+
+        static Matrix4 orthographic(float left, float right, float bottom, float top, float nearZ, float farZ) {
             Matrix4 result = {};
 
             result.rows[0][0] = 2.0f / (right - left);
             result.rows[1][1] = 2.0f / (top - bottom);
-            result.rows[2][2] = 1.0f / (farZ - nearZ);
+            result.rows[2][2] = -2.0f / (farZ - nearZ);
             result.rows[3][0] = -(right + left) / (right - left);
             result.rows[3][1] = -(top + bottom) / (top - bottom);
-            result.rows[3][2] = -nearZ / (farZ - nearZ);
+            result.rows[3][2] = -(farZ + nearZ) / (farZ - nearZ);
+            result.rows[3][3] = 1.0f;
 
             return result;
         }

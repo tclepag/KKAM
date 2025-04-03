@@ -25,6 +25,7 @@ __declspec(align(16)) struct Transform {
 
 struct Vertex {
 	float x, y, z;
+	float r, g, b;
 };
 
 template <typename T>
