@@ -4,10 +4,7 @@
 #include "common/directx11.h"
 #include "renderer.h"
 
-#include "viewports/dx11viewport.h"
-
 namespace renderer {
-	using namespace viewports;
 	class DX11Renderer : public Renderer {
 	public:
 		DX11Renderer();
@@ -23,22 +20,27 @@ namespace renderer {
 		ComPtr<Context11> getContext() const;
 		ComPtr<SwapChain11> getSwapChain() const;
 		ComPtr<RenderTargetView11> getRenderTargetView() const;
-		SharedPtr<DX11Viewport> getViewport() const { return m_viewport; }
+
+
 	private:
 		ComPtr<Device11> m_device;
 		ComPtr<Context11> m_context;
 		ComPtr<SwapChain11> m_swapChain;
 		ComPtr<RenderTargetView11> m_renderTargetView;
+		ComPtr<ID3D11DepthStencilView> m_depthStencilView;
+		ComPtr<ID3D11Texture2D> m_depthStencilBuffer;
 		ComPtr<ID3D11BlendState> m_blendState;
 		ComPtr<ID3D11RasterizerState> m_rasterizerState;
-		SharedPtr<DX11Viewport> m_viewport;
+		D3D11_VIEWPORT m_viewport;
 
 		UINT m_backBufferWidth;
 		UINT m_backBufferHeight;
 
 		void createDeviceAndSwapChain();
 		void createRenderTargetView();
+		void createDepthStencil(UINT width, UINT height);
 		void createBlendState();
 		void createRasterizerState();
+		void clearRenderTargetAndDepthStencil();
 	};
 }

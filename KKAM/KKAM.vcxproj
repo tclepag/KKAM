@@ -137,7 +137,6 @@
     <ClCompile Include="src\core\window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\renderer\dx11renderer.cpp" />
-    <ClCompile Include="src\renderer\viewports\dx11viewport.cpp" />
     <ClCompile Include="src\resources\dx11\dx11cb.cpp" />
     <ClCompile Include="src\resources\dx11\dx11ib.cpp" />
     <ClCompile Include="src\resources\dx11\dx11shader.cpp" />
@@ -156,8 +155,6 @@
     <ClInclude Include="include\math\Vector4.h" />
     <ClInclude Include="include\renderer\dx11renderer.h" />
     <ClInclude Include="include\renderer\renderer.h" />
-    <ClInclude Include="include\renderer\viewports\dx11viewport.h" />
-    <ClInclude Include="include\renderer\viewports\viewport.h" />
     <ClInclude Include="include\resource.h" />
     <ClInclude Include="include\resources\buffer.h" />
     <ClInclude Include="include\resources\dx11\dx11cb.h" />

@@ -111,7 +111,6 @@ namespace core {
 
 		// Begin frame, binding the viewport and clearing the color buffer
 		m_renderer->beginFrame();
-		m_renderer->getViewport()->clear(m_renderer->getContext().Get());
 
 		// Update constant buffer
 		m_shader->updateConstantBuffer(String(L"TRANSFORM"), &transform);
@@ -128,6 +127,7 @@ namespace core {
 
 		// Draw
 		m_renderer->getContext()->DrawIndexed(3, 0, 0);
+		OutputDebugString(L"Drawn 3 vertices\n");
 
 		// Present
 		m_renderer->endFrame();

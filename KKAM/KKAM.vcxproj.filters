@@ -39,9 +39,6 @@
     <ClCompile Include="src\renderer\dx11renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\viewports\dx11viewport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\resources\dx11\dx11shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,12 +81,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\renderer\dx11renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\renderer\viewports\viewport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\renderer\viewports\dx11viewport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\resources\shader.h">
