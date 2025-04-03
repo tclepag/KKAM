@@ -168,16 +168,16 @@ void DX11Renderer::createBlendState()
 {
 	D3D11_BLEND_DESC blendDesc = {};
 
-	blendDesc.RenderTarget[0].BlendEnable = FALSE;           // Disable blending for now
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;    // Not used when blend is disabled
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;  // Not used when blend is disabled
-	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;  // Not used when blend is disabled
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;    // Source blend factor
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;  // Destination blend factor
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;  // Blend operation
 
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;    // Not used when blend is disabled
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;  // Not used when blend is disabled
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;  // Not used when blend is disabled
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;    // Source alpha blend factor
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;  // Destination alpha blend factor
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;  // Alpha blend operation
 
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;  // Important: Allow writing to all channels
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;  // Allow writing to all channels
 
 	// Create and set the blend state
 	ID3D11BlendState* blendState = nullptr;
@@ -200,8 +200,8 @@ void DX11Renderer::createRasterizerState()
 	// Add rasterizer state setup here
 	D3D11_RASTERIZER_DESC rastDesc = {};
 	rastDesc.FillMode = D3D11_FILL_SOLID;
-	rastDesc.CullMode = D3D11_CULL_NONE;  // Start with no culling for debugging
-	rastDesc.FrontCounterClockwise = TRUE;
+	rastDesc.CullMode = D3D11_CULL_NONE;  // Enable back-face culling
+	rastDesc.FrontCounterClockwise = TRUE;  // Clockwise vertices are front-facing
 	rastDesc.DepthClipEnable = TRUE;
 
 	// Create and set the rasterizer state

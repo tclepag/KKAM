@@ -25,7 +25,11 @@ namespace core {
 		// Test object
 		// Create Vertex
 		m_vb = std::make_unique<DX11VertexBuffer>();
-		m_vb->setVertices({ -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f });
+		m_vb->setVertices({
+		{0.0f, 0.5f, 0.0f}, // Vertex 1: position (x, y, z) and color (r, g, b, a)
+		{0.5f, -0.5f, 0.0f}, // Vertex 2: position (x, y, z) and color (r, g, b, a)
+		{-0.5f, -0.5f, 0.0f} // Vertex 3: position (x, y, z) and color (r, g, b, a)
+			});
 		m_vb->initialize(m_renderer->getContext().Get());
 		// Create indices
 		m_ib = std::make_unique<DX11IndexBuffer>();
@@ -36,9 +40,10 @@ namespace core {
 		m_shader->setContext(m_renderer->getContext().Get());
 		m_shader->setVertexPath(L"content/shaders/vertex.hlsl");
 		m_shader->setPixelPath(L"content/shaders/pixel.hlsl");
-		D3D11_INPUT_ELEMENT_DESC positionElement = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 		m_shader->createConstantBuffer(String(L"TRANSFORM"), sizeof(Transform));
-		m_shader->setLayout({ positionElement });
+		m_shader->setLayout({
+	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			});
 		m_shader->build();
 
 		return true;
@@ -82,7 +87,7 @@ namespace core {
 			return;
 		}
 
-		float fovY = 3.14f / 4.0f; // 45 degrees field of view
+		float fovY = 45; // 45 degrees field of view
 		float aspect = 16.0f / 9.0f; // Aspect ratio
 		float nearZ = 0.1f;
 		float farZ = 100.0f;
@@ -99,9 +104,9 @@ namespace core {
 		m_transform.view = viewMatrix;
 
 		Transform transform = m_transform;
-		transform.model.transpose();
-		transform.view.transpose();
-		transform.projection.transpose();
+		transform.model = transform.model.transpose();
+		transform.view = transform.view.transpose();
+		transform.projection = transform.projection.transpose();
 
 
 		// Begin frame, binding the viewport and clearing the color buffer
@@ -109,8 +114,7 @@ namespace core {
 		m_renderer->getViewport()->clear(m_renderer->getContext().Get());
 
 		// Update constant buffer
-		void* ptr = static_cast<void*>(&transform);
-		m_shader->updateConstantBuffer(String(L"TRANSFORM"), ptr);
+		m_shader->updateConstantBuffer(String(L"TRANSFORM"), &transform);
 
 		// Bind shader
 		m_shader->bind();

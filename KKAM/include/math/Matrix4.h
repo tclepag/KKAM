@@ -7,7 +7,7 @@
 #include <sstream>
 
 namespace math {
-    class Matrix4 {
+    __declspec(align(16)) class Matrix4 {
     public:
         Vector4 rows[4];
 
@@ -152,7 +152,7 @@ namespace math {
             result.rows[0][0] = 1.0f / (aspect * tanHalfFovY);
             result.rows[1][1] = 1.0f / tanHalfFovY;
             result.rows[2][2] = farZ / (farZ - nearZ);
-            result.rows[2][3] = 1.0f;
+            result.rows[2][3] = -1.0f;
             result.rows[3][2] = -(farZ * nearZ) / (farZ - nearZ);
             result.rows[3][3] = 0.0f;
 

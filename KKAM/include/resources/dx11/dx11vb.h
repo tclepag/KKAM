@@ -12,10 +12,10 @@ namespace resources {
 			void initialize(Context11* context) override;
 			void bind(Context11* context) override;
 			void unbind(Context11* context) override;
-			void setVertices(const std::vector<float>& vertices);
+			void setVertices(const std::vector<Vertex>& vertices);
 		private:
 			ComPtr<Buffer11> m_buffer;
-			std::vector<float> m_vertices;
+			std::vector<Vertex> m_vertices;
 		};
 	}
 }

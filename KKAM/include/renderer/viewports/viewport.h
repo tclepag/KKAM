@@ -15,7 +15,7 @@ namespace renderer {
 				m_clearColor = { r, g, b, a };
 			}
 		protected:
-			std::array<float, 4> m_clearColor = { 0.392f, 0.584f, 0.929f, 1.0f };
+			std::array<float, 4> m_clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
 		};
 	}
 }

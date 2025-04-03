@@ -1,4 +1,6 @@
 #include "resources/dx11/dx11cb.h"
+#include <comdef.h>
+#include <stdexcept>
 
 namespace resources {
     namespace dx11 {
@@ -8,7 +10,7 @@ namespace resources {
 			context->GetDevice(&device);
 
             D3D11_BUFFER_DESC bufferDesc = {};
-            bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+			bufferDesc.Usage = D3D11_USAGE_DEFAULT;
             bufferDesc.ByteWidth = static_cast<UINT>(m_size);
             bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
             bufferDesc.CPUAccessFlags = 0;
@@ -17,6 +19,13 @@ namespace resources {
             initData.pSysMem = nullptr;
 
             HRESULT hr = device->CreateBuffer(&bufferDesc, nullptr, m_buffer.GetAddressOf());
+            if (FAILED(hr)) {
+                _com_error err(hr);
+                OutputDebugString(L"Failed to create constant buffer: ");
+                OutputDebugString(err.ErrorMessage());
+                OutputDebugString(L"\n");
+                throw std::runtime_error("FAILED TO CREATE CONSTANT BUFFER");
+            }
         }
 
         void DX11ConstantBuffer::bind(Context11* context) {

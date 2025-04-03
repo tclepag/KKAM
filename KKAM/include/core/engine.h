@@ -12,12 +12,6 @@
 
 
 namespace core {
-	struct Transform {
-		Matrix4 model;
-		Matrix4 view;
-		Matrix4 projection;
-	};
-
 	using namespace resources;
 	using namespace renderer;
 	class Engine {

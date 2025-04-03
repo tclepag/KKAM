@@ -15,6 +15,18 @@
 #include <iostream>
 #include <fstream>
 
+#include "math.h"
+
+__declspec(align(16)) struct Transform {
+	Matrix4 model;
+	Matrix4 view;
+	Matrix4 projection;
+};
+
+struct Vertex {
+	float x, y, z;
+};
+
 template <typename T>
 using Vector = std::vector<T>;
 using String = std::wstring;

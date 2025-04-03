@@ -39,7 +39,7 @@ namespace resources {
 		void updateConstantBuffer(const String& name, void* data) {
 			auto buffer = m_buffers[name];
 			if (buffer) {
-				buffer->update(m_context, &data);
+				buffer->update(m_context, data);
 			}
 		}
 

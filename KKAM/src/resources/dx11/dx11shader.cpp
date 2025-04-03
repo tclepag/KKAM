@@ -12,15 +12,15 @@ namespace resources {
 		createInputLayout();
 	}
 	void DX11Shader::bind() {
-		m_context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
-		m_context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
 		m_context->IASetInputLayout(m_inputLayout.Get());
+		unsigned int i = 0;
 		for (auto& buffer : m_buffers) {
-			unsigned int i = 0;
 			buffer.second->setSlot(i);
 			buffer.second->bind(m_context);
 			i++;
 		}
+		m_context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
+		m_context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
 	}
 	void DX11Shader::unbind() {
 		m_context->VSSetShader(nullptr, nullptr, 0);
