@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -140,19 +143,21 @@
     <ClCompile Include="src\resources\dx11\dx11cb.cpp" />
     <ClCompile Include="src\resources\dx11\dx11ib.cpp" />
     <ClCompile Include="src\resources\dx11\dx11shader.cpp" />
+    <ClCompile Include="src\resources\dx11\dx11texture.cpp" />
     <ClCompile Include="src\resources\dx11\dx11vb.cpp" />
     <ClCompile Include="src\utils\console.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\classes\base_entity.h" />
     <ClInclude Include="include\common\common.h" />
     <ClInclude Include="include\common\directx11.h" />
     <ClInclude Include="include\common\math.h" />
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\window.h" />
-    <ClInclude Include="include\math\Matrix4.h" />
-    <ClInclude Include="include\math\Vector2.h" />
-    <ClInclude Include="include\math\Vector3.h" />
-    <ClInclude Include="include\math\Vector4.h" />
+    <ClInclude Include="include\math\matrix4.h" />
+    <ClInclude Include="include\math\vector2.h" />
+    <ClInclude Include="include\math\vector3.h" />
+    <ClInclude Include="include\math\vector4.h" />
     <ClInclude Include="include\renderer\dx11renderer.h" />
     <ClInclude Include="include\renderer\renderer.h" />
     <ClInclude Include="include\resource.h" />
@@ -160,19 +165,24 @@
     <ClInclude Include="include\resources\dx11\dx11cb.h" />
     <ClInclude Include="include\resources\dx11\dx11ib.h" />
     <ClInclude Include="include\resources\dx11\dx11shader.h" />
+    <ClInclude Include="include\resources\dx11\dx11texture.h" />
     <ClInclude Include="include\resources\dx11\dx11vb.h" />
     <ClInclude Include="include\resources\shader.h" />
+    <ClInclude Include="include\resources\texture.h" />
     <ClInclude Include="include\utils\console.h" />
     <ClInclude Include="include\utils\event.h" />
+    <ClInclude Include="include\utils\string.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="content\app.ico" />
+    <Image Include="content\images\house.jpg" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="content\shaders\pixel.hlsl">

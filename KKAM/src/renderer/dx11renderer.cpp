@@ -198,7 +198,7 @@ namespace renderer {
 		m_rasterizerState = rasterizerState;
 	}
 	void DX11Renderer::clearRenderTargetAndDepthStencil() {
-		const float clearColor[4] = { 0.392f, 0.584f, 0.929f, 1.0f };
+		const float clearColor[4] = { m_clearColor.x, m_clearColor.y, m_clearColor.z, m_clearColor.w };
 		m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
 		m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}

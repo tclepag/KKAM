@@ -20,8 +20,12 @@ namespace renderer {
 		void getProjectionMatrix(Matrix4& projection) const {
 			projection = m_projectionMatrix;
 		}
+		void setClearColor(const Vector4& color) {
+			m_clearColor = color;
+		}
 	protected:
 		Matrix4 m_viewMatrix = Matrix4::identity();
 		Matrix4 m_projectionMatrix = Matrix4::identity();
+		Vector4 m_clearColor = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 	};
 } // namespace renderer

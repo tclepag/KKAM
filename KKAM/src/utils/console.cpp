@@ -15,7 +15,7 @@ namespace utils {
 		onMessage.notify(message, type);
 
 #ifdef _MSC_VER
-		OutputDebugString(message.c_str());
+		OutputDebugString(message.wc_str());
 #endif
 	}
 }

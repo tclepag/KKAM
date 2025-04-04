@@ -6,7 +6,7 @@ namespace core {
     Window::Window(const WindowCreateInfo& info) :
         m_width(info.width),
         m_height(info.height),
-        m_title(String(info.title)),
+        m_title(info.title),
         m_isRunning(true)
     {
         m_wc.cbSize = sizeof(WNDCLASSEX);

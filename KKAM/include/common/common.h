@@ -15,6 +15,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "utils/string.h"
 #include "math.h"
 
 __declspec(align(16)) struct Transform {
@@ -26,10 +27,13 @@ __declspec(align(16)) struct Transform {
 struct Vertex {
 	float x, y, z;
 	float r, g, b;
+	float u, v;
 };
+
 
 template <typename T>
 using Vector = std::vector<T>;
+using CString = utils::String;
 using String = std::wstring;
 template <typename K, typename V>
 using Map = std::unordered_map<K, V>;

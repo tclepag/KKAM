@@ -9,6 +9,7 @@
 #include "resources/dx11/dx11shader.h"
 #include "resources/dx11/dx11ib.h"
 #include "resources/dx11/dx11vb.h"
+#include "resources/dx11/dx11texture.h"
 
 
 namespace core {
@@ -40,5 +41,6 @@ namespace core {
 		UniquePtr<DX11VertexBuffer> m_vb = nullptr;
 
 		Transform m_transform;
+		DX11Texture* m_texture = nullptr;
 	};
 }

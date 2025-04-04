@@ -111,12 +111,7 @@ namespace resources {
 		String fileName = shaderPath.substr(shaderPath.find_last_of(L"/\\") + 1);
 
 		// Check if a .cso file exists
-		if (std::filesystem::exists(fileName + L".cso")) {
-			HRESULT hr = D3DReadFileToBlob((fileName + L".cso").c_str(), shaderBlob.GetAddressOf());
-			if (FAILED(hr)) {
-				OutputDebugString(L"Failed to read .cso file\n");
-				return nullptr;
-			}
+		if (std::filesystem::exists(std::wstring(fileName + L".cso"))) {
 			return shaderBlob;
 		}
 		// If we fail to find a cso file, just compile our own.

@@ -24,28 +24,82 @@ namespace core {
 
 		// Test object
 		// Create Vertex
-		m_vb = std::make_unique<DX11VertexBuffer>();
-		m_vb->setVertices({
-			{0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f}, // Vertex 1: position (x, y, z) and color (r, g, b)
-			{0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f}, // Vertex 2: position (x, y, z) and color (r, g, b)
-			{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f} // Vertex 3: position (x, y, z) and color (r, g, b)
-			});
-		m_vb->initialize(m_renderer->getContext().Get());
+        m_vb = std::make_unique<DX11VertexBuffer>();
+        m_vb->setVertices({
+            // Front face
+            {-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, // Vertex 0
+            {0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f},  // Vertex 1
+            {0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},   // Vertex 2
+            {-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f},  // Vertex 3
+            // Back face
+            {-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f},  // Vertex 4
+            {0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f},   // Vertex 5
+            {0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},    // Vertex 6
+            {-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f},   // Vertex 7
+            // Left face
+            {-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, // Vertex 8
+            {-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f},  // Vertex 9
+            {-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},   // Vertex 10
+            {-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f},  // Vertex 11
+            // Right face
+            {0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f},  // Vertex 12
+            {0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f},   // Vertex 13
+            {0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},    // Vertex 14
+            {0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f},   // Vertex 15
+            // Top face
+            {-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f},  // Vertex 16
+            {0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f},   // Vertex 17
+            {0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},    // Vertex 18
+            {-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f},   // Vertex 19
+            // Bottom face
+            {-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, // Vertex 20
+            {0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f},  // Vertex 21
+            {0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},   // Vertex 22
+            {-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f}   // Vertex 23
+        });
+        m_vb->initialize(m_renderer->getContext().Get());
 
-		// Create indices
-		m_ib = std::make_unique<DX11IndexBuffer>();
-		m_ib->setIndices({ 0, 1, 2 });
-		m_ib->initialize(m_renderer->getContext().Get());
+        // Create indices for the cube
+        m_ib = std::make_unique<DX11IndexBuffer>();
+        m_ib->setIndices({
+            // Front face
+            0, 1, 2,
+            0, 2, 3,
+            // Back face
+            4, 5, 6,
+            4, 6, 7,
+            // Left face
+            8, 9, 10,
+            8, 10, 11,
+            // Right face
+            12, 13, 14,
+            12, 14, 15,
+            // Top face
+            16, 17, 18,
+            16, 18, 19,
+            // Bottom face
+            20, 21, 22,
+            20, 22, 23
+        });
+        m_ib->initialize(m_renderer->getContext().Get());
+
+		// Create texture
+		m_texture = new DX11Texture();
+		m_texture->setFilePath(L"content/images/house.jpg");
+		m_texture->setContext(m_renderer->getContext().Get());
+		m_texture->loadFromFile();
+
 
 		// Create Shader
 		m_shader = std::make_unique<DX11Shader>();
 		m_shader->setContext(m_renderer->getContext().Get());
 		m_shader->setVertexPath(L"content/shaders/vertex.hlsl");
 		m_shader->setPixelPath(L"content/shaders/pixel.hlsl");
-		m_shader->createConstantBuffer(String(L"TRANSFORM"), sizeof(Transform));
+		m_shader->createConstantBuffer(L"TRANSFORM", sizeof(Transform));
 		m_shader->setLayout({
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 			});
 		m_shader->build();
 
@@ -110,7 +164,7 @@ namespace core {
 		Matrix4 viewMatrix = Matrix4::lookAt(eye, target, up);
 		m_renderer->setViewMatrix(viewMatrix);
 
-		m_transform.model = m_transform.model * Matrix4::rotationX(0.0001f);
+		m_transform.model = m_transform.model * Matrix4::rotationX(0.0001f) * Matrix4::rotationY(0.0005f);
 		m_transform.projection = projectionMatrix;
 		m_transform.view = viewMatrix;
 
@@ -123,10 +177,13 @@ namespace core {
 		m_renderer->beginFrame();
 
 		// Update constant buffer
-		m_shader->updateConstantBuffer(String(L"TRANSFORM"), &transform);
+		m_shader->updateConstantBuffer(L"TRANSFORM", &transform);
 
 		// Bind shader
 		m_shader->bind();
+
+		// Bind texture
+		m_texture->bind();
 
 		// Bind buffers
 		m_vb->bind(m_renderer->getContext().Get());
@@ -136,7 +193,7 @@ namespace core {
 		m_renderer->getContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// Draw
-		m_renderer->getContext()->DrawIndexed(3, 0, 0);
+		m_renderer->getContext()->DrawIndexed(m_ib->getIndexCount(), 0, 0);
 
 		// Present
 		m_renderer->endFrame();

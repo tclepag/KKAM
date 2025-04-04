@@ -42,6 +42,9 @@
     <ClCompile Include="src\resources\dx11\dx11shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\resources\dx11\dx11texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\directx11.h">
@@ -89,24 +92,37 @@
     <ClInclude Include="include\resources\dx11\dx11shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Vector2.h">
+    <ClInclude Include="include\math\vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Vector3.h">
+    <ClInclude Include="include\math\vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Vector4.h">
+    <ClInclude Include="include\math\vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Matrix4.h">
+    <ClInclude Include="include\math\matrix4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\common\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\resources\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resources\dx11\dx11texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\classes\base_entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\resource.rc">
@@ -115,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="content\app.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="content\images\house.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

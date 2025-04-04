@@ -15,6 +15,9 @@ namespace resources {
             void unbind(Context11* context) override;
 
             void setIndices(const std::vector<uint32_t>& indices);
+            size_t getIndexCount() const {
+				return m_indices.size();
+            }
         private:
 			ComPtr<Buffer11> m_buffer;
 			std::vector<uint32_t> m_indices;
