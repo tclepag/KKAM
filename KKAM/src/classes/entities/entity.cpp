@@ -8,38 +8,6 @@ namespace classes {
 		removeAllChildren();
 	}
 
-	template<typename T, typename... Args>
-	T* CEntity::addComponent(Args&&... args) {
-		static_assert(std::is_base_of<CComponent, T>::value, "T must be derived from CComponent");
-		T* component = new T(std::forward<Args>(args)...);
-		component->m_parent = this;
-		m_components.push_back(component);
-		return component;
-	}
-
-	template<typename T>
-	T* CEntity::getComponent() const {
-		static_assert(std::is_base_of<CComponent, T>::value, "T must be derived from CComponent");
-		for (auto& component : m_components) {
-			if (dynamic_cast<T*>(component)) {
-				return dynamic_cast<T*>(component);
-			}
-		}
-		return nullptr;
-	}
-
-	template<typename T>
-	void CEntity::removeComponent() {
-		static_assert(std::is_base_of<CComponent, T>::value, "T must be derived from CComponent");
-		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
-			if (dynamic_cast<T*>(*it)) {
-				delete* it;
-				m_components.erase(it);
-				break;
-			}
-		}
-	}
-
 	void CEntity::removeComponent(CComponent* component) {
 		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
 			if (*it == component) {
@@ -115,8 +83,14 @@ namespace classes {
 		CBaseEntity::ready();
 	}
 	void CEntity::update() {
+		if (!isReady()) {
+			return;
+		}
 		for (auto& component : m_components) {
 			if (component && component->m_isDormant) {
+				if (!component->isReady()) {
+					continue;
+				}
 				component->update();
 			}
 		}
@@ -127,9 +101,20 @@ namespace classes {
 		}
 	}
 	void CEntity::render() {
+		if (!isLoaded()) {
+			return;
+		}
 		for (auto& component : m_components) {
 			if (component && component->m_isDormant && component->m_isVisible) {
-				component->render();
+				if (!component->isLoaded()) {
+					continue;
+				}
+				if (component->isReady()) {
+					component->render();
+				}
+				else {
+					component->ready();
+				}
 			}
 		}
 		for (auto& child : m_children) {

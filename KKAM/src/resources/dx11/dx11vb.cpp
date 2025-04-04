@@ -3,6 +3,8 @@
 namespace resources {
 	namespace dx11 {
 		void DX11VertexBuffer::initialize(Context11* context) {
+			m_buffer.Reset();
+
 			// Get D3D11Device from D3D11DeviceContext
 			Device11* device;
 			context->GetDevice(&device);
@@ -16,6 +18,7 @@ namespace resources {
 			initData.pSysMem = m_vertices.data();
 			// Create vertex buffer
 			device->CreateBuffer(&bd, &initData, m_buffer.GetAddressOf());
+			m_needsUpdate = false;
 		}
 		void DX11VertexBuffer::bind(Context11* context) {
 			UINT stride = sizeof(Vertex);
@@ -27,6 +30,7 @@ namespace resources {
 		}
 		void DX11VertexBuffer::setVertices(const std::vector<Vertex>& vertices) {
 			this->m_vertices = vertices;
+			this->m_needsUpdate = true;
 		}
 	}
 }

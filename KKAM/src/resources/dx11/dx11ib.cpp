@@ -3,6 +3,7 @@
 namespace resources {
 	namespace dx11 {
 		void DX11IndexBuffer::initialize(Context11* context) {
+			m_buffer.Reset();
 			// Get D3D11Device from D3D11DeviceContext
 			Device11* device;
 			context->GetDevice(&device);
@@ -17,6 +18,7 @@ namespace resources {
 			initData.pSysMem = m_indices.data();
 			// Create index buffer
 			device->CreateBuffer(&bd, &initData, m_buffer.GetAddressOf());
+			m_needsUpdate = false;
 		}
 		void DX11IndexBuffer::bind(Context11* context) {
 			UINT stride = sizeof(uint32_t);
@@ -28,6 +30,7 @@ namespace resources {
 		}
 		void DX11IndexBuffer::setIndices(const std::vector<uint32_t>& indices) {
 			this->m_indices = indices;
+			this->m_needsUpdate = true;
 		}
 	}
 }

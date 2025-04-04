@@ -2,13 +2,14 @@
 
 #include "common/common.h"
 #include "core/entity_manager.h"
+#include "core/engine.h"
 
 namespace classes {
-	using core::g_entityManager;
+	using namespace core;
 	class CBaseEntity {
 	public:
-		CBaseEntity() = default;
-		virtual ~CBaseEntity() = default;
+		CBaseEntity();
+		virtual ~CBaseEntity();
 
 		// Entity properties
 

@@ -5,6 +5,7 @@
 namespace resources {
     namespace dx11 {
         void DX11ConstantBuffer::initialize(Context11* context) {
+			m_buffer.Reset();
 			// Get D3D11Device from D3D11DeviceContext
 			Device11* device;
 			context->GetDevice(&device);

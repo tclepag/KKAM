@@ -6,8 +6,8 @@
 namespace classes {
 	class CEntity : public CBaseEntity {
 	public:
-		CEntity() = default;
-		~CEntity() override = default;
+		CEntity();
+		~CEntity() override;
 
 		// Entity properties
 
@@ -17,11 +17,35 @@ namespace classes {
 		// Component methods
 
 		template<typename T, typename... Args>
-		T* addComponent(Args&&... args);
+		T* addComponent(Args&&... args) {
+			static_assert(std::is_base_of<CComponent, T>::value, "T must be derived from CComponent");
+			T* component = new T(std::forward<Args>(args)...);
+			component->m_parent = this;
+			component->load();
+			m_components.push_back(component);
+			return component;
+		}
 		template<typename T>
-		T* getComponent() const;
+		T* getComponent() const {
+			static_assert(std::is_base_of<CComponent, T>::value, "T must be derived from CComponent");
+			for (auto& component : m_components) {
+				if (dynamic_cast<T*>(component)) {
+					return dynamic_cast<T*>(component);
+				}
+			}
+			return nullptr;
+		}
 		template<typename T>
-		void removeComponent();
+		void removeComponent() {
+			static_assert(std::is_base_of<CComponent, T>::value, "T must be derived from CComponent");
+			for (auto it = m_components.begin(); it != m_components.end(); ++it) {
+				if (dynamic_cast<T*>(*it)) {
+					delete* it;
+					m_components.erase(it);
+					break;
+				}
+			}
+		}
 		void removeComponent(CComponent* component);
 		void removeAllComponents();
 

@@ -13,5 +13,11 @@ namespace resources {
 		virtual void releaseResources() = 0;
 		virtual void setVertexPath(const String& vertexPath) = 0;
 		virtual void setPixelPath(const String& pixelPath) = 0;
+
+		bool needsUpdate() const {
+			return m_needsUpdate;
+		}
+	protected:
+		bool m_needsUpdate = false;
 	};
 }

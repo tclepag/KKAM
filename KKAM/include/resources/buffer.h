@@ -12,7 +12,12 @@ namespace resources {
 		void setSlot(size_t slot) {
 			m_slot = slot;
 		}
+
+		bool needsUpdate() const {
+			return m_needsUpdate;
+		}
 	protected:
 		size_t m_slot = 0;
+		bool m_needsUpdate = false;
 	};
 }

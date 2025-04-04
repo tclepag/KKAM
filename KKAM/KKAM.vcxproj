@@ -138,7 +138,8 @@
   <ItemGroup>
     <ClCompile Include="src\classes\base_entity.cpp" />
     <ClCompile Include="src\classes\component.cpp" />
-    <ClCompile Include="src\classes\entity.cpp" />
+    <ClCompile Include="src\classes\components\mesh.cpp" />
+    <ClCompile Include="src\classes\entities\entity.cpp" />
     <ClCompile Include="src\core\engine.cpp" />
     <ClCompile Include="src\core\entity_manager.cpp" />
     <ClCompile Include="src\core\window.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="include\resources\dx11\dx11shader.h" />
     <ClInclude Include="include\resources\dx11\dx11texture.h" />
     <ClInclude Include="include\resources\dx11\dx11vb.h" />
+    <ClInclude Include="include\resources\mesh.h" />
     <ClInclude Include="include\resources\shader.h" />
     <ClInclude Include="include\resources\texture.h" />
     <ClInclude Include="include\utils\console.h" />

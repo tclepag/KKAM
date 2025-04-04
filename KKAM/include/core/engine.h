@@ -12,8 +12,13 @@
 #include "resources/dx11/dx11vb.h"
 #include "resources/dx11/dx11texture.h"
 
+namespace classes {
+	class CEntity;
+	class CMesh;
+}
 
 namespace core {
+	using namespace classes;
 	using namespace resources;
 	using namespace renderer;
 	class Engine {
@@ -26,6 +31,8 @@ namespace core {
 		void shutdown();
 
 		Window* getWindow() const;
+		DX11Renderer* getRenderer() const;
+		EntityManager* getEntityManager() const;
 
 	private:
 		void update();
@@ -38,11 +45,12 @@ namespace core {
 		UniquePtr<EntityManager> m_entityManager = nullptr;
 
 		// Test
-		UniquePtr<DX11Shader> m_shader = nullptr;
-		UniquePtr<DX11IndexBuffer> m_ib = nullptr;
-		UniquePtr<DX11VertexBuffer> m_vb = nullptr;
+		CEntity* m_entity = nullptr;
+		CMesh* m_mesh = nullptr;
 
 		Transform m_transform;
 		DX11Texture* m_texture = nullptr;
 	};
+
+	extern Engine* g_engine;
 }

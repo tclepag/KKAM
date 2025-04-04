@@ -7,17 +7,27 @@ namespace resources {
 		releaseResources();
 	}
 	void DX11Shader::build() {
+		releaseResources();
 		createVertexShader();
 		createPixelShader();
 		createInputLayout();
+		m_needsUpdate = false;
 	}
 	void DX11Shader::bind() {
 		m_context->IASetInputLayout(m_inputLayout.Get());
 		unsigned int i = 0;
 		for (auto& buffer : m_buffers) {
-			buffer.second->setSlot(i);
-			buffer.second->bind(m_context);
+			if (buffer.second) {
+				buffer.second->setSlot(i);
+				buffer.second->bind(m_context);
+			}
 			i++;
+		}
+		for (const auto& [index, texture] : m_textures) {
+			if (texture->getSlot() != index) {
+				texture->setSlot(index);
+			}
+			texture->bind();
 		}
 		m_context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
 		m_context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
@@ -26,8 +36,13 @@ namespace resources {
 		m_context->VSSetShader(nullptr, nullptr, 0);
 		m_context->PSSetShader(nullptr, nullptr, 0);
 		m_context->IASetInputLayout(nullptr);
-		for (auto& buffer : m_buffers) {
-			buffer.second->unbind(m_context);
+        for (auto& buffer : m_buffers) {
+			if (buffer.second) {
+				buffer.second->unbind(m_context);
+			}
+        }
+		for (const auto& [index, texture] : m_textures) {
+			texture->unbind();
 		}
 	}
 	void DX11Shader::releaseResources() {

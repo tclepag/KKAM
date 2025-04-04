@@ -14,8 +14,22 @@ namespace classes {
 	void CBaseEntity::ready() {
 		m_isReady = true;
 	}
-	void CBaseEntity::update() {}
-	void CBaseEntity::render() {}
+	void CBaseEntity::update() {
+		if (!m_isDormant) {
+			return;
+		}
+	}
+	void CBaseEntity::render() {
+		if (!m_isDormant || !m_isLoaded) {
+			return;
+		}
+		if (!m_isReady) {
+			ready();
+		}
+		else {
+			render();
+		}
+	}
 	void CBaseEntity::destroy() const {
 		if (m_isDestroying) {
 			return;

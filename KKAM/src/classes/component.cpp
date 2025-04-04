@@ -7,9 +7,7 @@ namespace classes {
 		load();
 	}
 	CComponent::~CComponent() {
-		if (m_parent) {
-			m_parent->removeComponent(this);
-		}
+
 	}
 	void CComponent::load() {
 		m_isLoaded = true;
@@ -18,19 +16,16 @@ namespace classes {
 		m_isReady = true;
 	}
 	void CComponent::update() {
-		if (m_isDormant) {
+		if (!m_isDormant) {
 			return;
 		}
 	}
 	void CComponent::render() {
-		if (m_isDormant) {
+		if (!m_isDormant) {
 			return;
 		}
 		if (!m_isReady) {
 			ready();
-		}
-		if (m_isVisible) {
-			render();
 		}
 	}
 	void CComponent::destroy() {

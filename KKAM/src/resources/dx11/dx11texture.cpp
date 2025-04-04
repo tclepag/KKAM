@@ -12,6 +12,10 @@ namespace resources {
 	}
 
 	void DX11Texture::loadFromFile() {
+		m_samplerState = nullptr;
+		m_textureView = nullptr;
+		m_texture = nullptr;
+
 		// Get Device
 		Device11* device;
 		m_context->GetDevice(&device);

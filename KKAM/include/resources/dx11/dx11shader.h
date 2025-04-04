@@ -4,7 +4,9 @@
 #include "common/common.h"
 #include "resources/shader.h"
 #include "dx11cb.h"
+#include "dx11texture.h"
 #include <filesystem>
+#include <map>
 
 namespace resources {
 	using namespace dx11;
@@ -18,16 +20,38 @@ namespace resources {
 		void releaseResources() override;
 		void setVertexPath(const String& vertexPath) {
 			m_vertexPath = vertexPath;
+			m_needsUpdate = true;
 		}
 		void setPixelPath(const String& pixelPath) {
 			m_pixelPath = pixelPath;
+			m_needsUpdate = true;
 		}
 		void setContext(Context11* context) {
 			m_context = context;
 		}
 
+		void setTexture(size_t slot, DX11Texture* texture) {
+			m_textures[slot] = texture;
+			texture->setContext(m_context);
+			texture->setSlot(slot);
+			m_needsUpdate = true;
+		}
+
+		DX11Texture* getTexture(size_t slot) {
+			auto it = m_textures.find(slot);
+			if (it != m_textures.end()) {
+				return it->second;
+			}
+			return nullptr;
+		}
+
+		std::map<size_t, DX11Texture*>& getTextures() {
+			return m_textures;
+		}
+
 		void setLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout) {
 			m_layout = layout;
+			m_needsUpdate = true;
 		}
 		
 		void createConstantBuffer(const String& name, size_t size) {
@@ -72,6 +96,7 @@ namespace resources {
 		String m_pixelPath;
 
 		Map<String, DX11ConstantBuffer*> m_buffers;
+		std::map<size_t, DX11Texture*> m_textures;
 
 		std::vector<D3D11_INPUT_ELEMENT_DESC> m_layout = {
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },

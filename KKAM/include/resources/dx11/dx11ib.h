@@ -13,8 +13,10 @@ namespace resources {
             void initialize(Context11* context) override;
             void bind(Context11* context) override;
             void unbind(Context11* context) override;
-
             void setIndices(const std::vector<uint32_t>& indices);
+			const std::vector<uint32_t>& getIndices() const {
+				return m_indices;
+			}
             size_t getIndexCount() const {
 				return m_indices.size();
             }
