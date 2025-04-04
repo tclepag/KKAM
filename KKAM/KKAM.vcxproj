@@ -136,7 +136,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\classes\base_entity.cpp" />
+    <ClCompile Include="src\classes\component.cpp" />
+    <ClCompile Include="src\classes\entity.cpp" />
     <ClCompile Include="src\core\engine.cpp" />
+    <ClCompile Include="src\core\entity_manager.cpp" />
     <ClCompile Include="src\core\window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\renderer\dx11renderer.cpp" />
@@ -149,10 +153,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\classes\base_entity.h" />
+    <ClInclude Include="include\classes\component.h" />
+    <ClInclude Include="include\classes\components\mesh.h" />
+    <ClInclude Include="include\classes\entities\entity.h" />
     <ClInclude Include="include\common\common.h" />
     <ClInclude Include="include\common\directx11.h" />
     <ClInclude Include="include\common\math.h" />
     <ClInclude Include="include\core\engine.h" />
+    <ClInclude Include="include\core\entity_manager.h" />
     <ClInclude Include="include\core\window.h" />
     <ClInclude Include="include\math\matrix4.h" />
     <ClInclude Include="include\math\vector2.h" />

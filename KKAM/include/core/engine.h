@@ -4,6 +4,7 @@
 #include "common/math.h"
 #include "window.h"
 #include "renderer/dx11renderer.h"
+#include "entity_manager.h"
 
 // Test Includes
 #include "resources/dx11/dx11shader.h"
@@ -34,6 +35,7 @@ namespace core {
 		bool m_isRunning = false;
 		UniquePtr<Window> m_window = nullptr;
 		UniquePtr<DX11Renderer> m_renderer = nullptr;
+		UniquePtr<EntityManager> m_entityManager = nullptr;
 
 		// Test
 		UniquePtr<DX11Shader> m_shader = nullptr;

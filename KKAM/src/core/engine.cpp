@@ -17,6 +17,9 @@ namespace core {
 		m_renderer = std::make_unique<DX11Renderer>();
 		m_renderer->init();
 
+		// Create entity manager
+		m_entityManager = std::make_unique<EntityManager>();
+
 		// Set transform to identity
 		m_transform.model = Matrix4::identity();
 		m_transform.view = Matrix4::identity();
