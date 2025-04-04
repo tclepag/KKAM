@@ -145,6 +145,7 @@
     <ClCompile Include="src\core\window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\renderer\dx11renderer.cpp" />
+    <ClCompile Include="src\resources\assets\mesh_loader.cpp" />
     <ClCompile Include="src\resources\dx11\dx11cb.cpp" />
     <ClCompile Include="src\resources\dx11\dx11ib.cpp" />
     <ClCompile Include="src\resources\dx11\dx11shader.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="include\common\math.h" />
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\entity_manager.h" />
+    <ClInclude Include="include\core\resource_manager.h" />
     <ClInclude Include="include\core\window.h" />
     <ClInclude Include="include\math\matrix4.h" />
     <ClInclude Include="include\math\vector2.h" />
@@ -176,7 +178,7 @@
     <ClInclude Include="include\resources\dx11\dx11shader.h" />
     <ClInclude Include="include\resources\dx11\dx11texture.h" />
     <ClInclude Include="include\resources\dx11\dx11vb.h" />
-    <ClInclude Include="include\resources\mesh.h" />
+    <ClInclude Include="include\resources\assets\mesh_loader.h" />
     <ClInclude Include="include\resources\shader.h" />
     <ClInclude Include="include\resources\texture.h" />
     <ClInclude Include="include\utils\console.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="include\utils\string.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="content\test\test_mesh.mesh" />
     <None Include="cpp.hint" />
     <None Include="vcpkg.json" />
   </ItemGroup>
@@ -211,4 +214,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -1,0 +1,27 @@
+{
+    // This is a test mesh file
+    // It contains a simple triangle plane
+    "vertices": [ // KKAM currently uses
+        [ -0.5, -0.5, 0.0 ], // Left bottom
+        [ 0.5, -0.5, 0.0 ], // Right bottom
+        [ 0.0, 0.5, 0.0 ] // Top (Apex)
+    ],
+    "indices": [
+        0,
+        1,
+        2
+    ],
+    "normals": [
+        [ 0.0, 0.0, 1.0 ],
+        [ 0.0, 0.0, 1.0 ],
+        [ 0.0, 0.0, 1.0 ]
+    ],
+    "uv": [
+        [ 0.0, 0.0 ],
+        [ 1.0, 0.0 ],
+        [ 0.5, 1.0 ]
+    ],
+    "textures": [ // KKAM currently has no material support, only textures.
+        "../images/house.jpg"
+    ]
+}

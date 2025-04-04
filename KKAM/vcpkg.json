@@ -5,6 +5,7 @@
     "dependencies": [
         "directxtex",
         "directxtk",
-        "assimp"
+        "assimp",
+        "nlohmann-json"
     ]
 }
