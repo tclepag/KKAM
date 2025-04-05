@@ -186,7 +186,7 @@
     <ClInclude Include="include\utils\string.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="content\test\test_mesh.mesh" />
+    <None Include="content\test\test_mesh.json" />
     <None Include="cpp.hint" />
     <None Include="vcpkg.json" />
   </ItemGroup>

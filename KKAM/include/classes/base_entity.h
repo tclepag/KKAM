@@ -13,6 +13,11 @@ namespace classes {
 
 		// Entity properties
 
+		Matrix4 matrix;
+		Vector3 position;
+		Vector3 rotation;
+		float scale;
+
 		CString name; // Entity name
 		const size_t getId() const { return m_id; } // Entity ID
 		const bool isReady() const { return m_isReady; } // Entity is ready to be processed (passed load() and ready())
@@ -41,7 +46,6 @@ namespace classes {
 		// Entity properties
 		
 		size_t m_id = 0; // Entity ID
-
 
 		// Entity states
 

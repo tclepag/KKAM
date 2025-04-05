@@ -15,6 +15,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "utils/console.h"
+#include "utils/event.h"
 #include "utils/string.h"
 #include "math.h"
 
@@ -29,7 +31,6 @@ struct Vertex {
 	float r, g, b;
 	float u, v;
 };
-
 
 template <typename T>
 using Vector = std::vector<T>;

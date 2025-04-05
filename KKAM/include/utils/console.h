@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/common.h"
+#include "string.h"
 #include "event.h"
 
 namespace utils {

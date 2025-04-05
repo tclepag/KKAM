@@ -42,64 +42,12 @@ namespace core {
 		m_entity = new CEntity();
 		m_mesh = m_entity->addComponent<CMesh>();
 		m_mesh->setContext(m_renderer->getContext().Get());
-		m_mesh->setVertices({
-			// Front face
-			{-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, // Vertex 0
-			{0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f},  // Vertex 1
-			{0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},   // Vertex 2
-			{-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f},  // Vertex 3
-			// Back face
-			{-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f},  // Vertex 4
-			{0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f},   // Vertex 5
-			{0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},    // Vertex 6
-			{-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f},   // Vertex 7
-			// Left face
-			{-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, // Vertex 8
-			{-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f},  // Vertex 9
-			{-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},   // Vertex 10
-			{-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f},  // Vertex 11
-			// Right face
-			{0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f},  // Vertex 12
-			{0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f},   // Vertex 13
-			{0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},    // Vertex 14
-			{0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f},   // Vertex 15
-			// Top face
-			{-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f},  // Vertex 16
-			{0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f},   // Vertex 17
-			{0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},    // Vertex 18
-			{-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f},   // Vertex 19
-			// Bottom face
-			{-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, // Vertex 20
-			{0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f},  // Vertex 21
-			{0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},   // Vertex 22
-			{-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f}   // Vertex 23
-			});
-		m_mesh->setIndices({
-			// Front face
-			0, 1, 2,
-			0, 2, 3,
-			// Back face
-			4, 5, 6,
-			4, 6, 7,
-			// Left face
-			8, 9, 10,
-			8, 10, 11,
-			// Right face
-			12, 13, 14,
-			12, 14, 15,
-			// Top face
-			16, 17, 18,
-			16, 18, 19,
-			// Bottom face
-			20, 21, 22,
-			20, 22, 23
-			});
-		m_mesh->setTexture(0, m_texture);
+		m_mesh->setMeshPath("content/test/test_mesh.json");
 		m_mesh->setVertexShader(L"content/shaders/vertex.hlsl");
 		m_mesh->setPixelShader(L"content/shaders/pixel.hlsl");
 		m_mesh->setLayout({
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+            { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 			});
 
@@ -186,7 +134,6 @@ namespace core {
 
 		// Render objects
 		if (m_entity) {
-			m_mesh->setTransform(transform);
 			m_entity->render();
 		}
 

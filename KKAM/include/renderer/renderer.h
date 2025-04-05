@@ -23,6 +23,12 @@ namespace renderer {
 		void setClearColor(const Vector4& color) {
 			m_clearColor = color;
 		}
+		Matrix4 getViewMatrix() {
+			return m_viewMatrix;
+		}
+		Matrix4 getProjectionMatrix() {
+			return m_projectionMatrix;
+		}
 	protected:
 		Matrix4 m_viewMatrix = Matrix4::identity();
 		Matrix4 m_projectionMatrix = Matrix4::identity();
