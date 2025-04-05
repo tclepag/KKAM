@@ -4,7 +4,7 @@ SamplerState sampler0 : register(s0); // Sampler state
 struct PSInput
 {
     float4 Position : SV_POSITION;
-    float4 Normal : NORMAL;
+    float3 Normal : NORMAL;
     float2 TexCoord : TEXCOORD;
 };
 

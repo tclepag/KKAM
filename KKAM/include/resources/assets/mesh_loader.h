@@ -34,6 +34,17 @@ namespace resources {
 			// This class is not meant to be a creatable class
 			MeshLoader() = default;
 			~MeshLoader() = default;
+
+			static std::string getDirectory(const std::string& filePath) {
+				std::filesystem::path path(filePath);
+				return path.parent_path().string();
+			}
+
+			static std::string combinePath(const std::string& directory, const std::string& relativePath) {
+				std::filesystem::path dir(directory);
+				std::filesystem::path relPath(relativePath);
+				return (dir / relPath).lexically_normal().string();
+			}
 		};
 	}
 }

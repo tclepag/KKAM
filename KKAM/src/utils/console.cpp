@@ -14,8 +14,6 @@ namespace utils {
 	void Console::print(String message, Severity type) {
 		onMessage.notify(message, type);
 
-#ifdef _MSC_VER
-		OutputDebugString(message.wc_str());
-#endif
+		OutputDebugStringA(String(message + "\n").c_str());
 	}
 }

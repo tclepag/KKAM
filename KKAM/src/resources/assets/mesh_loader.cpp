@@ -60,10 +60,10 @@ namespace resources {
 				if (data.contains("textures")) {
 					int i = 0;
 					for (const auto& texture : data["textures"]) {
-						auto file_path = texture.get<std::string>().c_str();
-						CString fixedPath = path + "/" + file_path;
+						std::string file_path = texture.get<std::string>();
+						utils::Console::log(CString("Loading texture: ") + CString(combinePath(getDirectory(path), file_path)).c_str());
 						auto* dx11Texture = new DX11Texture();
-						dx11Texture->setFilePath(fixedPath);
+						dx11Texture->setFilePath(CString(combinePath(getDirectory(path), file_path)));
 						dx11Texture->setSlot(i);
 						mesh.textures[i] = dx11Texture;
 						i++;

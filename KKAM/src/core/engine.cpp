@@ -42,7 +42,7 @@ namespace core {
 		m_entity = new CEntity();
 		m_mesh = m_entity->addComponent<CMesh>();
 		m_mesh->setContext(m_renderer->getContext().Get());
-		m_mesh->setMeshPath("content/test/test_mesh.json");
+		m_mesh->setMeshPath("content/test/test_obj.mesh");
 		m_mesh->setVertexShader(L"content/shaders/vertex.hlsl");
 		m_mesh->setPixelShader(L"content/shaders/pixel.hlsl");
 		m_mesh->setLayout({
@@ -134,6 +134,7 @@ namespace core {
 
 		// Render objects
 		if (m_entity) {
+			m_entity->matrix = m_entity->matrix * Matrix4::rotationX(0.0001f) * Matrix4::rotationY(0.0005f);
 			m_entity->render();
 		}
 
